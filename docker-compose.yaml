@@ -5,10 +5,6 @@ services:
     image: postgres:16.1-alpine3.18
     env_file:
       - .env
-    command:
-      - postgres
-      - -c
-      - config_file=/etc/postgresql/conf/
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
@@ -18,7 +14,6 @@ services:
     volumes:
       - /var/lib/postgresql/data
       - .:/docker-entrypoint-initdb.d
-      - ./postgresql.conf:/etc/postgresql/conf/
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d ${DB_NAME} -U ${DB_USER}"]
       interval: 10s
@@ -34,15 +29,15 @@ services:
       my_network:
         ipv4_address: 172.18.0.3
 
-  app:
-    container_name: app
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - .:/app
-    networks:
-      - my_network
+#  app:
+#    container_name: app
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    volumes:
+#      - .:/app
+#    networks:
+#      - my_network
 
 volumes:
   redis_data:
