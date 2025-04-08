@@ -64,7 +64,8 @@ class BaseDAO(Generic[T]):
             new_instance = self.model(**values_dict)
             self._session.add(new_instance)
             logger.info(f"Запись {self.model.__name__} успешно добавлена.")
-            await self._session.flush()
+            await self._session.commit()
+            await self._session.refresh(new_instance)
             return new_instance
         except SQLAlchemyError as e:
             logger.error(f"Ошибка при добавлении записи: {e}")
