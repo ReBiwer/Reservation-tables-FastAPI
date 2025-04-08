@@ -24,8 +24,8 @@ async def create_table(
         session: AsyncSession = Depends(get_session_with_commit)
 ) -> InfoTable:
     table_dao = TableDAO(session)
-    table = await table_dao.add(table)
-    return InfoTable.model_validate(table)
+    new_table = await table_dao.add(table)
+    return InfoTable.model_validate(new_table)
 
 
 @router.delete('/')
