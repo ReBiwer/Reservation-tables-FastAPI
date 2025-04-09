@@ -34,7 +34,7 @@ async def delete_reservation(
         session: AsyncSession = Depends(get_session_with_commit)
 ) -> JSONResponse:
     reservation_dao = ReservationDAO(session)
-    await reservation_dao.delete(reservation)
-    return JSONResponse(content={"message": "Бронь удалена"},
-                        status_code=status.HTTP_204_NO_CONTENT)
-
+    count_del = await reservation_dao.delete(reservation)
+    if count_del == 0:
+        return JSONResponse(content={"message": "Бронь не найдена"}, status_code=status.HTTP_404_NOT_FOUND)
+    return JSONResponse(content={"message": "Бронь удалена"}, status_code=status.HTTP_200_OK)

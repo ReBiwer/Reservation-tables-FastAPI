@@ -34,6 +34,7 @@ async def delete_table(
         session: AsyncSession = Depends(get_session_with_commit)
 ) -> JSONResponse:
     table_dao = TableDAO(session)
-    await table_dao.delete(table)
-    return JSONResponse(content={"message": "Стол удален"},
-                        status_code=status.HTTP_204_NO_CONTENT)
+    count_del = await table_dao.delete(table)
+    if count_del == 0:
+        return JSONResponse(content={"message": "Стол не найден"}, status_code=status.HTTP_404_NOT_FOUND)
+    return JSONResponse(content={"message": "Стол удален"}, status_code=status.HTTP_200_OK)
