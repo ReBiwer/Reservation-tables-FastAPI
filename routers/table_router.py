@@ -9,7 +9,7 @@ from schemas.tables import IDTable, InfoTable, CreateTable
 
 router = APIRouter()
 
-@router.get('/')
+@router.get('/', summary="Получить список столов")
 async def get_tables(
         session: AsyncSession = Depends(get_session_without_commit)
 ) -> list[InfoTable]:
@@ -18,7 +18,7 @@ async def get_tables(
     return [InfoTable.model_validate(table) for table in tables]
 
 
-@router.post('/')
+@router.post('/', summary="Добавить стол")
 async def create_table(
         table: CreateTable,
         session: AsyncSession = Depends(get_session_with_commit)
@@ -28,7 +28,7 @@ async def create_table(
     return InfoTable.model_validate(new_table)
 
 
-@router.delete('/')
+@router.delete('/', summary="Удалить стол")
 async def delete_table(
         table: IDTable,
         session: AsyncSession = Depends(get_session_with_commit)

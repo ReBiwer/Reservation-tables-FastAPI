@@ -9,7 +9,7 @@ from schemas.reservations import IDReservation, InfoReservation, CreateReservati
 
 router = APIRouter()
 
-@router.get('/')
+@router.get('/', summary="Получить список броней")
 async def get_reservations(
         session: AsyncSession = Depends(get_session_without_commit)
 ) -> list[InfoReservation]:
@@ -18,7 +18,7 @@ async def get_reservations(
     return [InfoReservation.model_validate(res) for res in reservations]
 
 
-@router.post('/')
+@router.post('/', summary="Создать бронь")
 async def create_reservation(
         reservation: CreateReservation,
         session: AsyncSession = Depends(get_session_with_commit)
@@ -28,7 +28,7 @@ async def create_reservation(
     return InfoReservation.model_validate(new_reservation)
 
 
-@router.delete('/')
+@router.delete('/', summary="Удалить бронь")
 async def delete_reservation(
         reservation: IDReservation,
         session: AsyncSession = Depends(get_session_with_commit)

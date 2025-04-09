@@ -1,15 +1,12 @@
 import datetime
 
-from pydantic import BaseModel, Field, FutureDatetime, field_validator
+from pydantic import BaseModel, Field, FutureDatetime, field_validator, ConfigDict
 from schemas.tables import InfoTable, IDTable
 
 class BaseReservation(BaseModel):
-
-    class Config:
-        from_attributes = True
-        json_encoders = {
-            datetime: lambda dt: dt.strftime("%d-%m-%Y %H:%M")
-        }
+    model_config = ConfigDict(
+        from_attributes = True,
+    )
 
 
 class IDReservation(BaseReservation):
