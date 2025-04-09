@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from fastapi import status
+from fastapi import status, Query
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -30,7 +30,7 @@ async def create_table(
 
 @router.delete('/', summary="Удалить стол")
 async def delete_table(
-        table: IDTable,
+        table: IDTable = Query(title="ID стола", description="Идентификатор стола для удаления"),
         session: AsyncSession = Depends(get_session_with_commit)
 ) -> JSONResponse:
     table_dao = TableDAO(session)
