@@ -24,9 +24,17 @@ class InfoReservation(IDReservation):
     duration_minutes: int = Field(description="Продолжительность брони в минутах", examples=[30, 60])
     table: InfoTable = Field(description="Столик брони")
 
-    @field_serializer("reservation_time", when_used="json")
+    @field_serializer("reservation_time")
     def serializer_reservation_time(self, value: datetime.datetime) -> str:
         return value.strftime("%d.%m.%Y %H:%M")
+
+
+    @field_validator("reservation_time", mode="before")
+    def validate_reservation_time(cls, value: str | datetime.datetime) -> datetime.datetime:
+        if isinstance(value, str):
+            return datetime.datetime.strptime(value, "%d.%m.%Y %H:%M")
+        return value
+
 
 
 class CreateReservation(BaseReservation):
