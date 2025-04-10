@@ -11,13 +11,13 @@ class Settings(BaseSettings):
     DB_HOST: str
     DB_PORT: str
     DB_NAME: str
+    DB_HOST_DOCKER: str
 
     model_config = SettingsConfigDict(env_file=f"{BASE_DIR}/.env")
 
     @property
     def db_url(self):
-        return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+        return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST_DOCKER}:{self.DB_PORT}/{self.DB_NAME}"
 
 
-# Получаем параметры для загрузки переменных среды
 settings = Settings()

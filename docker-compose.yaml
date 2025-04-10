@@ -29,18 +29,20 @@ services:
       my_network:
         ipv4_address: 172.18.0.3
 
-#  app:
-#    container_name: app
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    volumes:
-#      - .:/app
-#    networks:
-#      - my_network
+  app:
+    container_name: app
+    ports:
+      - '8000:8000'
+    command:
+       ["python", "app/main.py"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - my_network
 
 volumes:
-  redis_data:
+  fastapi_app:
 
 networks:
   my_network:

@@ -17,12 +17,6 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[dict, None]:
 
 
 def create_app() -> FastAPI:
-    """
-   Создание и конфигурация FastAPI приложения.
-
-   Returns:
-       Сконфигурированное приложение FastAPI
-   """
     app = FastAPI(lifespan=lifespan)
 
     # Настройка CORS
@@ -40,7 +34,6 @@ def create_app() -> FastAPI:
 
 
 def register_routers(app: FastAPI) -> None:
-    """Регистрация роутеров приложения."""
     app.include_router(table_router, prefix='/tables', tags=['Tables'])
     app.include_router(reservation_router, prefix='/reservations', tags=['Reservations'])
 
@@ -49,5 +42,4 @@ app = create_app()
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
-
+    uvicorn.run("main:app", host="0.0.0.0", port=8000)
