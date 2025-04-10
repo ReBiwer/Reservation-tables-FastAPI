@@ -16,7 +16,7 @@ def validate_response(model: Type[T], data: dict):
 
 
 @pytest.mark.asyncio
-async def test_get_tables(async_client):
+async def test_get_tables(async_client, mock_table_dao_find_all):
     response = await async_client.get("tables/")
     assert response.status_code == 200
     data = response.json()
@@ -42,10 +42,10 @@ async def test_delete_table(async_client, mock_table_dao_delete):
     assert isinstance(data, dict)
     assert data["message"] == "Стол удален"
 
+
 @pytest.mark.asyncio
 async def test_delete_table_not_found(async_client, mock_table_dao_delete_not_found):
     response = await async_client.delete("tables/", params={"id": 2})
-    print(response.text)
     assert response.status_code == 404
     data = response.json()
     assert isinstance(data, dict)

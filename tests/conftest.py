@@ -3,7 +3,6 @@ import datetime
 import pytest_asyncio
 from httpx import AsyncClient, ASGITransport
 from unittest.mock import AsyncMock
-from fastapi.testclient import TestClient
 
 from schemas.tables import InfoTable
 from schemas.reservations import InfoReservation
@@ -24,6 +23,33 @@ async def mock_session(mocker):
     session = mocker.MagicMock()
     session.commit = mocker.AsyncMock()
     yield session
+
+
+@pytest_asyncio.fixture(scope="function")
+async def mock_table_dao_find_all(mocker, mock_session):
+    data = [
+      {
+          "id": 6,
+          "name": "Table 3",
+          "seats": 2,
+          "location": "зал у окна"
+        },
+      {
+          "id": 6,
+          "name": "Table 3",
+          "seats": 2,
+          "location": "зал у окна"
+        }
+    ]
+    mocker.patch(
+        "dao.dao.TableDAO.find_all",
+        new_callable=AsyncMock,
+        return_value=data
+    )
+    mocker.patch(
+        "routers.reservation_router.get_session_without_commit",
+        return_value=mock_session
+    )
 
 
 @pytest_asyncio.fixture(scope="function")
@@ -53,6 +79,7 @@ async def mock_table_dao_delete(mocker, mock_session):
             return_value=mock_session
         )
 
+
 @pytest_asyncio.fixture(scope="function")
 async def mock_table_dao_delete_not_found(mocker, mock_session):
     mocker.patch(
@@ -64,6 +91,7 @@ async def mock_table_dao_delete_not_found(mocker, mock_session):
         "routers.table_router.get_session_with_commit",
         return_value=mock_session
     )
+
 
 @pytest_asyncio.fixture(scope="function")
 async def mock_reservation_dao_find_all(mocker, mock_session):
@@ -131,6 +159,7 @@ async def mock_reservation_dao_add(mocker, mock_session):
         return_value=mock_session
     )
 
+
 @pytest_asyncio.fixture(scope="function")
 async def mock_reservation_dao_delete(mocker, mock_session):
         mocker.patch(
@@ -143,6 +172,7 @@ async def mock_reservation_dao_delete(mocker, mock_session):
             return_value=mock_session
         )
 
+
 @pytest_asyncio.fixture(scope="function")
 async def mock_reservation_dao_delete_not_found(mocker, mock_session):
     mocker.patch(
@@ -154,5 +184,3 @@ async def mock_reservation_dao_delete_not_found(mocker, mock_session):
         "routers.table_router.get_session_with_commit",
         return_value=mock_session
     )
-
-
