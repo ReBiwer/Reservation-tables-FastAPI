@@ -4,8 +4,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from loguru import logger
 
-from routers.table_router import router as table_router
-from routers.reservation_router import router as reservation_router
+from app.routers.table_router import router as table_router
+from app.routers.reservation_router import router as reservation_router
 
 
 @asynccontextmanager

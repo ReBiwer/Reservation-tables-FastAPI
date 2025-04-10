@@ -4,10 +4,10 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import SQLAlchemyError
 
-from exceptions.tables import BadRequestCreateTableException
-from dao.dao import TableDAO
-from dependencies.dao_dep import get_session_with_commit, get_session_without_commit
-from schemas.tables import IDTable, InfoTable, CreateTable
+from app.exceptions.tables import BadRequestCreateTableException
+from app.dao.dao import TableDAO
+from app.dependencies.dao_dep import get_session_with_commit, get_session_without_commit
+from app.schemas.tables import IDTable, InfoTable, CreateTable
 
 router = APIRouter()
 

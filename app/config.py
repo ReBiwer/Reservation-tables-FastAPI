@@ -5,7 +5,7 @@ from pydantic_settings import SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    BASE_DIR: str = os.path.abspath(os.path.join(os.path.dirname(__file__)))
+    BASE_DIR: str = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     DB_USER: str
     DB_PASS: str
     DB_HOST: str

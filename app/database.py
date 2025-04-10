@@ -5,7 +5,7 @@ from typing import Annotated
 from sqlalchemy import func, TIMESTAMP, Integer, inspect
 from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase, declared_attr
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine, AsyncSession
-from config import settings
+from app.config import settings
 
 
 engine = create_async_engine(url=settings.db_url)

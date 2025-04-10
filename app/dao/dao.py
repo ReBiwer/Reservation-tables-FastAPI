@@ -2,10 +2,10 @@ from loguru import logger
 from sqlalchemy import exists, select
 from sqlalchemy.exc import SQLAlchemyError
 
-from exceptions.reservations import CreateReservationException
-from schemas.reservations import CreateReservation
-from dao.base import BaseDAO
-from models import Table, Reservation
+from app.exceptions.reservations import CreateReservationException
+from app.schemas.reservations import CreateReservation
+from app.dao.base import BaseDAO
+from app.models import Table, Reservation
 
 
 class TableDAO(BaseDAO):

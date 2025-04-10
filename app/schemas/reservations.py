@@ -1,7 +1,8 @@
 import datetime
-
 from pydantic import BaseModel, Field, field_validator, ConfigDict, field_serializer
-from schemas.tables import InfoTable, IDTable
+
+from app.schemas.tables import InfoTable
+
 
 class BaseReservation(BaseModel):
     model_config = ConfigDict(

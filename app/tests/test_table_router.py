@@ -2,7 +2,7 @@ import pytest
 from typing import Type, TypeVar
 from pydantic import BaseModel, ValidationError
 
-from schemas.tables import InfoTable, CreateTable, IDTable
+from app.schemas.tables import InfoTable, CreateTable
 
 T = TypeVar("T", bound=BaseModel)
 

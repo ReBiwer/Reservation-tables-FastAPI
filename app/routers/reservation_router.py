@@ -4,10 +4,10 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from exceptions.reservations import BadRequestCreateReservationException
-from dao.dao import ReservationDAO
-from dependencies.dao_dep import get_session_with_commit, get_session_without_commit
-from schemas.reservations import IDReservation, InfoReservation, CreateReservation
+from app.exceptions.reservations import BadRequestCreateReservationException
+from app.dao.dao import ReservationDAO
+from app.dependencies.dao_dep import get_session_with_commit, get_session_without_commit
+from app.schemas.reservations import IDReservation, InfoReservation, CreateReservation
 
 router = APIRouter()
 

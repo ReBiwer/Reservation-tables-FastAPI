@@ -1,8 +1,8 @@
 import datetime
-
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from database import Base, str_uniq
+
+from app.database import Base, str_uniq
 
 
 class Table(Base):

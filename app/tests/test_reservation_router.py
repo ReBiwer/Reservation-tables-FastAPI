@@ -1,10 +1,9 @@
 import datetime
-
 import pytest
 from typing import Type, TypeVar
 from pydantic import BaseModel, ValidationError
 
-from schemas.reservations import InfoReservation, CreateReservation
+from app.schemas.reservations import InfoReservation, CreateReservation
 
 T = TypeVar("T", bound=BaseModel)
 
