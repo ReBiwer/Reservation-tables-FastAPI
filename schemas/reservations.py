@@ -46,6 +46,12 @@ class CreateReservation(BaseReservation):
     duration_minutes: int = Field(description="Продолжительность брони в минутах", examples=[30, 60])
     table_id: int = Field(description="ID столика брони")
 
+    @field_serializer("reservation_time")
+    def serializer_reservation_time(self, value: datetime.datetime) -> str:
+        return value.strftime("%d.%m.%Y %H:%M")
+
     @field_validator("reservation_time", mode="before")
-    def validate_before__reservation_time(cls, value: str) -> datetime.datetime:
-        return datetime.datetime.strptime(value, "%d.%m.%Y %H:%M")
+    def validate_reservation_time(cls, value: str | datetime.datetime) -> datetime.datetime:
+        if isinstance(value, str):
+            return datetime.datetime.strptime(value, "%d.%m.%Y %H:%M")
+        return value
