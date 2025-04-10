@@ -9,4 +9,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 ENV PYTHONPATH="${PYTHONPATH}:/fastapi_app"
 
 COPY /app /fastapi_app/app
-CMD ["python", "app/main.py"]
+CMD cd app && \
+    alembic upgrade head && \
+    python main.py
