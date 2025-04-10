@@ -1,6 +1,6 @@
 import datetime
 
-from pydantic import BaseModel, Field, FutureDatetime, field_validator, ConfigDict
+from pydantic import BaseModel, Field, field_validator, ConfigDict, field_serializer
 from schemas.tables import InfoTable, IDTable
 
 class BaseReservation(BaseModel):
@@ -24,8 +24,8 @@ class InfoReservation(IDReservation):
     duration_minutes: int = Field(description="Продолжительность брони в минутах", examples=[30, 60])
     table: InfoTable = Field(description="Столик брони")
 
-    @field_validator("reservation_time", mode="after")
-    def validate_after_reservation_time(cls, value: datetime.datetime) -> str:
+    @field_serializer("reservation_time", when_used="json")
+    def serializer_reservation_time(self, value: datetime.datetime) -> str:
         return value.strftime("%d.%m.%Y %H:%M")
 
 
