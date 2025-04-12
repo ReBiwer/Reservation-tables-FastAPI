@@ -15,10 +15,18 @@ class ReservationDAO(BaseDAO):
     model = Reservation
 
     async def check_instance(self, values: CreateReservation):
+        values_dict = values.model_dump()
         result = await self._session.execute(
             select(
                 exists().where(
-                    (self.model.reservation_time == values.reservation_time) &
+                    (
+                        ((self.model.reservation_time >= values_dict.get("reservation_time")) &
+                         (self.model.reservation_time <= values_dict.get("duration_minutes"))) |
+                        ((self.model.duration_minutes >= values_dict.get("reservation_time")) &
+                         (self.model.duration_minutes <= values_dict.get("duration_minutes"))) |
+                        ((values_dict.get("reservation_time") >= self.model.reservation_time) &
+                         (values_dict.get("reservation_time") <= self.model.duration_minutes))
+                    ) &
                     (self.model.table_id == values.table_id)
                 )
             )
