@@ -32,7 +32,7 @@ services:
     container_name: app
     ports:
       - '8000:8000'
-    command: sh -c "cd app && alembic upgrade head && python main.py"
+    command: sh -c "alembic upgrade head && python app/main.py"
     depends_on:
       postgres:
         condition: service_healthy
