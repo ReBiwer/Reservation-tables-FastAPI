@@ -22,8 +22,13 @@ class InfoReservation(IDReservation):
         description="Время брони",
         examples=[formated_example_datetime],
     )
-    duration_minutes: int = Field(description="Продолжительность брони в минутах", examples=[30, 60])
+    duration_minutes: datetime.datetime| int = Field(description="Продолжительность брони в минутах", examples=[30, 60])
     table: InfoTable = Field(description="Столик брони")
+
+    @field_serializer("duration_minutes")
+    def serializer_duration_minute(self, value: datetime.datetime) -> int:
+        minute = value - self.reservation_time
+        return int(minute.seconds / 60)
 
     @field_serializer("reservation_time")
     def serializer_reservation_time(self, value: datetime.datetime) -> str:
@@ -37,7 +42,6 @@ class InfoReservation(IDReservation):
         return value
 
 
-
 class CreateReservation(BaseReservation):
     customer_name: str = Field(description="Имя клиента", examples=["Владимир"])
     reservation_time: datetime.datetime = Field(
@@ -47,9 +51,11 @@ class CreateReservation(BaseReservation):
     duration_minutes: int = Field(description="Продолжительность брони в минутах", examples=[30, 60])
     table_id: int = Field(description="ID столика брони")
 
-    @field_serializer("reservation_time")
-    def serializer_reservation_time(self, value: datetime.datetime) -> str:
-        return value.strftime("%d.%m.%Y %H:%M")
+
+    @field_serializer("duration_minutes")
+    def minutes_to_end_time(self, value: int) -> datetime.datetime:
+        return self.reservation_time + datetime.timedelta(minutes=value)
+
 
     @field_validator("reservation_time", mode="before")
     def validate_reservation_time(cls, value: str | datetime.datetime) -> datetime.datetime:
