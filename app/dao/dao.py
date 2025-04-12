@@ -30,14 +30,14 @@ class ReservationDAO(BaseDAO):
         logger.info(f"Добавление записи {self.model.__name__} с параметрами: {values_dict}")
         try:
             new_instance = self.model(**values_dict)
-            if not await self.check_instance(values):
-                self._session.add(new_instance)
-                logger.info(f"Запись {self.model.__name__} успешно добавлена.")
-                await self._session.commit()
-                await self._session.refresh(new_instance)
-                return new_instance
-            logger.info(f"Запись {self.model.__name__} с параметрами: {values_dict} уже существует")
-            raise CreateReservationException()
+            if await self.check_instance(values):
+                logger.info(f"Запись {self.model.__name__} с параметрами: {values_dict} уже существует")
+                raise CreateReservationException()
+            self._session.add(new_instance)
+            logger.info(f"Запись {self.model.__name__} успешно добавлена.")
+            await self._session.commit()
+            await self._session.refresh(new_instance)
+            return new_instance
         except SQLAlchemyError as e:
             logger.error(f"Ошибка при добавлении записи: {e}")
             raise

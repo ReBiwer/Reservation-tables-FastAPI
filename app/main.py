@@ -12,8 +12,10 @@ from app.routers.reservation_router import router as reservation_router
 async def lifespan(app: FastAPI) -> AsyncGenerator[dict, None]:
     """Управление жизненным циклом приложения."""
     logger.info("Инициализация приложения...")
-    yield
-    logger.info("Завершение работы приложения...")
+    try:
+        yield
+    finally:
+        logger.info("Завершение работы приложения...")
 
 
 def create_app() -> FastAPI:

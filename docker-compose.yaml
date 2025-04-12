@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   postgres:
-    container_name: postgres_container
+    container_name: ${CONTAINER_DB_NAME}
     image: postgres:16.1-alpine3.18
     env_file:
       - .env
@@ -26,8 +26,7 @@ services:
           cpus: '1'
           memory: 4G
     networks:
-      my_network:
-        ipv4_address: 172.18.0.3
+      - my_network
 
   app:
     container_name: app
@@ -49,7 +48,3 @@ volumes:
 networks:
   my_network:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 172.18.0.0/16
-          gateway: 172.18.0.1

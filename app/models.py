@@ -23,7 +23,7 @@ class Table(Base):
 class Reservation(Base):
     customer_name: Mapped[str]
     reservation_time: Mapped[datetime.datetime]
-    duration_minutes: Mapped[int]
+    duration_minutes: Mapped[datetime.datetime]
 
     table_id: Mapped[int] = mapped_column(ForeignKey('tables.id', ondelete="CASCADE"))
     table: Mapped["Table"] = relationship("Table", back_populates="reservations", lazy="joined")

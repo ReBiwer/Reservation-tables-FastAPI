@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     DB_HOST: str
     DB_PORT: str
     DB_NAME: str
-    DB_HOST_DOCKER: str
+    CONTAINER_DB_NAME: str
 
     model_config = SettingsConfigDict(env_file=f"{BASE_DIR}/.env")
 
