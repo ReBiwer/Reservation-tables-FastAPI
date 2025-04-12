@@ -4,7 +4,7 @@ from httpx import AsyncClient, ASGITransport
 from unittest.mock import AsyncMock
 
 from app.schemas.tables import InfoTable
-from app.schemas.reservations import InfoReservation
+from app.schemas.reservations import InfoReservation, CreateReservation
 from app.main import app
 
 
@@ -99,7 +99,7 @@ async def mock_reservation_dao_find_all(mocker, mock_session):
         "id": 12,
         "customer_name": "Владимир",
         "reservation_time": datetime.datetime(year=2025, month=4, day=20, hour=16, minute=30),
-        "duration_minutes": 30,
+        "duration_minutes": datetime.datetime(year=2025, month=4, day=20, hour=16, minute=50),
         "table": {
           "id": 6,
           "name": "Table 3",
@@ -111,7 +111,7 @@ async def mock_reservation_dao_find_all(mocker, mock_session):
         "id": 13,
         "customer_name": "Владимир",
         "reservation_time": datetime.datetime(year=2025, month=4, day=12, hour=16, minute=30),
-        "duration_minutes": 30,
+        "duration_minutes": datetime.datetime(year=2025, month=4, day=12, hour=16, minute=50),
         "table": {
           "id": 6,
           "name": "Table 3",
@@ -133,25 +133,22 @@ async def mock_reservation_dao_find_all(mocker, mock_session):
 
 @pytest_asyncio.fixture(scope="function")
 async def mock_reservation_dao_add(mocker, mock_session):
-    data = (
-        InfoReservation(
-            id=1,
-            customer_name="Владимир",
-            reservation_time=datetime.datetime(year=2025, month=4, day=12, hour=16, minute=30),
-            duration_minutes=30,
-            table=InfoTable(
-                id=1,
-                name="Test table",
-                seats=3,
-                location="test location"
-            )
-        )
-    )
-    mock_data = data.model_dump()
+    data = {
+        "id": 1,
+        "customer_name": "Владимир",
+        "reservation_time": datetime.datetime(year=2025, month=4, day=12, hour=16, minute=30),
+        "duration_minutes": datetime.datetime(year=2025, month=4, day=12, hour=16, minute=50),
+        "table": {
+            "id": 1,
+            "name": "Test table",
+            "seats" :3,
+            "location": "test location"
+        },
+    }
     mocker.patch(
         "app.dao.dao.ReservationDAO.add",
         new_callable=AsyncMock,
-        return_value=mock_data
+        return_value=data
     )
     mocker.patch(
         "app.routers.table_router.get_session_with_commit",

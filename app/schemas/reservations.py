@@ -22,7 +22,7 @@ class InfoReservation(IDReservation):
         description="Время брони",
         examples=[formated_example_datetime],
     )
-    duration_minutes: datetime.datetime| int = Field(description="Продолжительность брони в минутах", examples=[30, 60])
+    duration_minutes: datetime.datetime | int = Field(description="Продолжительность брони в минутах", examples=[30, 60])
     table: InfoTable = Field(description="Столик брони")
 
     @field_serializer("duration_minutes")

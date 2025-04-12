@@ -1,4 +1,6 @@
 import datetime
+import json
+
 import pytest
 from typing import Type, TypeVar
 from pydantic import BaseModel, ValidationError
@@ -27,13 +29,13 @@ async def test_get_reservations(async_client, mock_reservation_dao_find_all):
 
 @pytest.mark.asyncio
 async def test_create_reservation(async_client, mock_reservation_dao_add):
-    data = CreateReservation(
-        customer_name="Владимир",
-        reservation_time=datetime.datetime(year=2025, month=4, day=12, hour=16, minute=30),
-        duration_minutes=30,
-        table_id=1
-    )
-    response = await async_client.post("reservations/", content=data.model_dump_json())
+    data = {
+        "customer_name": "Владимир",
+        "reservation_time": "12.04.2025 16:30",
+        "duration_minutes": 30,
+        "table_id": 1
+    }
+    response = await async_client.post("reservations/", content=json.dumps(data))
     print(response.json())
     assert response.status_code == 200
     data = response.json()
